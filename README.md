@@ -28,9 +28,5 @@ Variable              | Description
 `WEB_DOCUMENT_ROOT`   | Document root for Nginx
 `WEB_DOCUMENT_INDEX`  | Document index (eg. `index.php`) for Nginx
 `WEB_ALIAS_DOMAIN`    | Alias domains (eg. `*.vm`) for Nginx
-`FTP_USER`            | FTP account - username (default: application)
-`FTP_PASSWORD`        | FTP account - password (default: application)
-`FTP_UID`             | UID of FTP account
-`FTP_GID`             | GID of FTP account
-`FTP_PATH`            | FTP root path
+`SFTP_USERS`          | FTP accounts - format `user:pass[:e][:uid[:gid[:dir1[,dir2]...]]] ...`
 
