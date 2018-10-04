@@ -14,8 +14,8 @@ ENV WEB_PHP_SOCKET=127.0.0.1:9000
 
 ENV FTP_USER=application \
     FTP_PASSWORD=application \
-    FTP_UID=1000 \
-    FTP_GID=1000 \
+    FTP_UID=2000 \
+    FTP_GID=2000 \
     FTP_PATH=/data/ftp/
 
 COPY conf/ /opt/docker/
