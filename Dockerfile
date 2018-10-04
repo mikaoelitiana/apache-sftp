@@ -30,13 +30,14 @@ RUN set -x \
         ' /etc/apache2/apache2.conf \
     && rm -f /etc/apache2/sites-enabled/* \
     && a2enmod actions proxy proxy_fcgi ssl rewrite headers expires \
+    # Install vsftp
+    && apt-install \
+        vsftpd \
+    && ln -sf /opt/docker/etc/vsftpd/vsftpd.conf /etc/vsftpd.conf \
+    && mkdir -p \
+            /var/run/vsftpd/empty \
+            /var/log/supervisor \
     && docker-run-bootstrap \
     && docker-image-cleanup
-
-ENV FTP_USER=application \
-    FTP_PASSWORD=application \
-    FTP_UID=1000 \
-    FTP_GID=1000 \
-    FTP_PATH=/data/ftp/
 
 EXPOSE 80 443 20 21 12020 12021 12022 12023 12024 12025
