@@ -12,12 +12,6 @@ ENV WEB_DOCUMENT_ROOT=/app \
     WEB_PHP_SOCKET=""
 ENV WEB_PHP_SOCKET=127.0.0.1:9000
 
-ENV FTP_USER=application \
-    FTP_PASSWORD=application \
-    FTP_UID=2000 \
-    FTP_GID=2000 \
-    FTP_PATH=/data/ftp/
-
 COPY conf/ /opt/docker/
 
 RUN set -x \
@@ -30,14 +24,19 @@ RUN set -x \
         ' /etc/apache2/apache2.conf \
     && rm -f /etc/apache2/sites-enabled/* \
     && a2enmod actions proxy proxy_fcgi ssl rewrite headers expires \
-    # Install vsftp
-    && apt-install \
-        vsftpd \
-    && ln -sf /opt/docker/etc/vsftpd/vsftpd.conf /etc/vsftpd.conf \
-    && mkdir -p \
-            /var/run/vsftpd/empty \
-            /var/log/supervisor \
     && docker-run-bootstrap \
     && docker-image-cleanup
 
-EXPOSE 80 443 20 21 12020 12021 12022 12023 12024 12025
+COPY entrypoint /
+
+# Install sftp
+RUN apt-get update && \
+    apt-get -y install openssh-server && \
+    rm -rf /var/lib/apt/lists/* && \
+    mkdir -p /var/run/sshd && \
+    rm -f /etc/ssh/ssh_host_*key* && \
+    chmod +x entrypoint
+
+COPY sshd_config /etc/ssh/sshd_config
+
+EXPOSE 80 443 22
