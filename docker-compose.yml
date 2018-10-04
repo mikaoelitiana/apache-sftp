@@ -7,14 +7,16 @@ services:
     ports:
      - "80"
     volumes:
-     - ./:/var/www/html 
+     - main:/var/www/html 
   sftp:
     image: "atmoz/sftp"
     command: "${SFTP_USER}:${SFTP_PASSWORD}:2000:2001"
     volumes:
-     - ./:/home/${SFTP_USER}
+     - main:/home/${SFTP_USER}
     expose:
      - "22"
     ports:
      - "22"
+  volumes:
+    main: {}
 
